@@ -20,7 +20,7 @@ export const Container = styled.View<TypeProps>`
 
     margin-right: 16px;
 
-    height: 300px;
+    height: 200px;
 `;
 
 
