@@ -48,6 +48,6 @@ export const CategoryName = styled.Text`
     margin-left: 17px;
 `;
 export const Date = styled.Text`
-    font-size: ${RFValue(20)}px;
+    font-size: ${RFValue(14)}px;
     color: ${({theme})=> theme.colors.text};
 `;
