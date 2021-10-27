@@ -49,13 +49,14 @@ export function Dashboard() {
     const theme = useTheme();
 
     function getLastTransactionDate(collection: DataListProps[], type: 'positive' | 'negative'){
+        
         const lastTransaction = new Date(Math.max.apply(Math, collection
             .filter((transaction) => transaction.type === type)
             .map((transaction) => new Date(transaction.date).getTime())));
 
         return `${lastTransaction.getDate()} de ${lastTransaction.toLocaleString('pt-BR', { month: 'long'})}`;
-    }
-
+           
+        }
     async function loadTransactions() {
         const dataKey = "@gofinances:transactions";
         const response = await AsyncStorage.getItem(dataKey);
@@ -98,6 +99,7 @@ export function Dashboard() {
 
             setTransactions(transactionsFormatted);
 
+            
             const lastTransactionEntries = getLastTransactionDate(transactions, 'positive');
             const lastTransactionExpensives = getLastTransactionDate(transactions, 'negative');
             const totalInterval = `01 a ${lastTransactionExpensives}`;
@@ -107,10 +109,10 @@ export function Dashboard() {
 
             setHighlightData({
                 entries: {
-                    amount: entriesTotal.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' }), lastTransaction: `Última entrada dia ${lastTransactionEntries}`,
+                    amount: entriesTotal.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' }), lastTransaction: `Última entrada ${lastTransactionEntries}`,
                 },
                 expensives: {
-                    amount: expensiveTotal.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' }), lastTransaction: `Útlima saída dia ${lastTransactionExpensives}`,
+                    amount: expensiveTotal.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' }), lastTransaction: `Útlima saída ${lastTransactionExpensives}`,
                 },
                 total: {
                     amount: total.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' }), lastTransaction: totalInterval,
@@ -122,6 +124,7 @@ export function Dashboard() {
 
     useEffect(() => {
         loadTransactions();
+        
     }, []);
 
     useFocusEffect(useCallback(() => {
