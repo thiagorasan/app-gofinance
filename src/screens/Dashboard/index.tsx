@@ -49,10 +49,12 @@ export function Dashboard() {
     const theme = useTheme();
 
     function getLastTransactionDate(collection: DataListProps[], type: 'positive' | 'negative'){
-        
+
         const lastTransaction = new Date(Math.max.apply(Math, collection
             .filter((transaction) => transaction.type === type)
             .map((transaction) => new Date(transaction.date).getTime())));
+
+       
 
         return `${lastTransaction.getDate()} de ${lastTransaction.toLocaleString('pt-BR', { month: 'long'})}`;
            
@@ -161,7 +163,7 @@ export function Dashboard() {
                 <HighlightCard type="down" title="Saídas" amount={highlightData.expensives.amount} lastTransaction={highlightData.expensives.lastTransaction} />
                 <HighlightCard type="total" title="Total" amount={highlightData.total.amount} lastTransaction={highlightData.total.lastTransaction} />
             </HighlightCards>
-
+           
             <Transactions>
                 <Title>
                     Listagem
