@@ -9,8 +9,8 @@ import { ThemeProvider } from 'styled-components';
 
 import {
   useFonts,
-  Poppins_400Regular, 
-  Poppins_500Medium, 
+  Poppins_400Regular,
+  Poppins_500Medium,
   Poppins_700Bold
 } from '@expo-google-fonts/poppins';
 
@@ -20,6 +20,8 @@ import { NavigationContainer } from '@react-navigation/native';
 import { AppRoutes } from './src/routes/app.routes';
 
 import { SignIn } from './src/screens/SignIn';
+
+import { AuthContext } from './src/AuthContext';
 
 
 
@@ -37,8 +39,11 @@ export default function App() {
   return (
     <ThemeProvider theme={theme}>
       <NavigationContainer>
-      <StatusBar barStyle="light-content" />
-      <SignIn />
+        <StatusBar barStyle="light-content" />
+
+        <AuthContext.Provider value={[]}>
+          <SignIn />
+        </AuthContext.Provider>
       </NavigationContainer>
     </ThemeProvider>
   )
