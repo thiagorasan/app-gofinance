@@ -4,6 +4,9 @@ import React, {
     useContext
  } from 'react';
 
+import * as AuthSession from 'expo-auth-session';
+
+
 interface AuthProviderProps {
     children: ReactNode;
 }
@@ -17,6 +20,14 @@ interface User {
 
 interface IAuthContextData {
     user: User;
+    signInWithGoogle(): Promise<void>;
+}
+
+interface AuthorizationResponse {
+    params: {
+        access_token: string;
+    },
+    type: string;
 }
 
 
@@ -28,11 +39,39 @@ function AuthProvider( { children }: AuthProviderProps ){
         id: '123123',
         name: 'Thiago Ramos',
         email: 'thiago@gmail.com',
+    };
+
+    async function signInWithGoogle(){
+        try {
+            const CLIENT_ID = '844471601323-5b45vqfb8cu269lp29akcmsv8m4ouooe.apps.googleusercontent.com';
+            const REDIRECT_URI = 'https://auth.expo.io/@thiagoramostrs/gofinances';
+            const RESPONSE_TYPE = 'token';
+            const SCOPE = encodeURI('profile email');
+
+            const authUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=${RESPONSE_TYPE}&scope=${SCOPE}`;
+
+            const { type, params } = await AuthSession
+            .startAsync({ authUrl }) as AuthorizationResponse;
+
+            if (type === 'success') {
+                const response = await fetch(`https://www.googleapis.com/oauth2/v1/userinfo?alt=json&access_token=${params.access_token}`)
+                const userInfo = await response.json();
+                console.log(userInfo);
+            }
+
+            //console.log(response);
+            
+        } catch (error) {
+            throw new Error(error as string);
+        }
     }
 
 
     return (
-        <AuthContext.Provider value={{ user }}>
+        <AuthContext.Provider value={{ 
+            user,
+            signInWithGoogle
+            }}>
           {children}
         </AuthContext.Provider>
     )

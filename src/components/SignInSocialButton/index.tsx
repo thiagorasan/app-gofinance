@@ -18,7 +18,7 @@ export function SignInSocialButton({
     ...rest
 }: Props){
     return(
-        <Button  title {...rest}>
+        <Button  {...rest}>
             <ImageContainer>
                 <Svg />
             </ImageContainer>
