@@ -1,8 +1,13 @@
 import React, { 
     createContext,
     ReactNode,
-    useContext
+    useContext,
+    useState
  } from 'react';
+
+ const { CLIENT_ID } = process.env;
+ const { REDIRECT_URI } = process.env;
+
 
 import * as AuthSession from 'expo-auth-session';
 
@@ -35,16 +40,10 @@ interface AuthorizationResponse {
 export const AuthContext = createContext({} as IAuthContextData);
 
 function AuthProvider( { children }: AuthProviderProps ){
-    const user = {
-        id: '123123',
-        name: 'Thiago Ramos',
-        email: 'thiago@gmail.com',
-    };
+    const [user, setUser] = useState<User>({} as User);
 
     async function signInWithGoogle(){
         try {
-            const CLIENT_ID = '844471601323-5b45vqfb8cu269lp29akcmsv8m4ouooe.apps.googleusercontent.com';
-            const REDIRECT_URI = 'https://auth.expo.io/@thiagoramostrs/gofinances';
             const RESPONSE_TYPE = 'token';
             const SCOPE = encodeURI('profile email');
 
@@ -56,16 +55,18 @@ function AuthProvider( { children }: AuthProviderProps ){
             if (type === 'success') {
                 const response = await fetch(`https://www.googleapis.com/oauth2/v1/userinfo?alt=json&access_token=${params.access_token}`)
                 const userInfo = await response.json();
-                console.log(userInfo);
+                
+                setUser({
+                    id: userInfo.id,
+                    email: userInfo.email,
+                    name: userInfo.given_name,
+                    photo: userInfo.picture
+                })
             }
-
-            //console.log(response);
-            
         } catch (error) {
             throw new Error(error as string);
         }
     }
-
 
     return (
         <AuthContext.Provider value={{ 
