@@ -33,6 +33,17 @@ export function SignIn() {
         }
     }
 
+    async function handleSignInWithApple(){
+        try {
+            await signInWithGoogle();
+            
+        } catch (error) {
+            console.log(error);
+            Alert.alert('Não foi possível conectar a conta Apple');
+        }
+    }
+
+
     return (
         <Container>
             <Header>
@@ -63,6 +74,7 @@ export function SignIn() {
                     <SignInSocialButton
                         title="Entrar com Apple"
                         svg={AppleSvg}
+                        onPress={handleSignInWithApple}
                     />
                 </FooterWrapper>
 
