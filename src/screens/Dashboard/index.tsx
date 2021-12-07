@@ -1,9 +1,12 @@
 
 import React, { useState, useEffect, useCallback } from 'react';
 import { ActivityIndicator } from 'react-native';
-import { useFocusEffect } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+
+import { useFocusEffect } from '@react-navigation/native';
 import { useTheme } from 'styled-components';
+import { useAuth } from '../../hooks/auth';
+
 
 import { HighlightCard } from '../../components/HighlightCard';
 import { TransactionCard, TransactionCardProps } from '../../components/TransactionCard';
@@ -47,6 +50,7 @@ export function Dashboard() {
     const [highlightData, setHighlightData] = useState<HighlightData>({} as HighlightData);
 
     const theme = useTheme();
+    const { signOut } = useAuth();
 
     function getLastTransactionDate(collection: DataListProps[], type: 'positive' | 'negative'){
 
@@ -152,7 +156,7 @@ export function Dashboard() {
                         </User>
                     </UserInfo>
 
-                    <LogoutButton onPress={() => { }}>
+                    <LogoutButton onPress={signOut}>
                         <Icon name="power" />
                     </LogoutButton>
                 </UserWrapper>

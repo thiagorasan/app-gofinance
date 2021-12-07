@@ -21,7 +21,7 @@ import {
 
 
 export function SignIn() {
-    const { signInWithGoogle } = useAuth();
+    const { signInWithGoogle, signInWithApple } = useAuth();
     
     async function handleSignInWithGoogle(){
         try {
@@ -35,7 +35,7 @@ export function SignIn() {
 
     async function handleSignInWithApple(){
         try {
-            await signInWithGoogle();
+            await signInWithApple();
             
         } catch (error) {
             console.log(error);
