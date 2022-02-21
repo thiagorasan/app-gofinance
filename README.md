@@ -30,5 +30,9 @@ Abaixo, um preview do resultado final do app:
 
 
 
+https://user-images.githubusercontent.com/27020072/155008625-ec550473-5325-4d57-aac4-02a4dd5789cb.mov
+
+
+
 
 
